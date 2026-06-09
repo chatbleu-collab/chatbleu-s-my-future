@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#6b2d8c">
+<meta name="description" content="별운이 알려주는 오늘의 운세, 사주, 타로, MBTI, 꿈해몽, 이름풀이">
+<title>나의미래는?</title>
+
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="나의미래는">
+
+<link rel="stylesheet" href="app.css">
+<script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.6.12/lunar.js"></script>
+</head>
+<body>
+
+<div class="stars" aria-hidden="true"></div>
+
+<header class="header">
+  <button class="icon-btn" id="btnMenu" aria-label="메뉴"><span>☰</span></button>
+  <h1 class="logo">나의미래는<span class="qmark">?</span></h1>
+  <button class="icon-btn premium-badge" id="btnPremium" aria-label="프리미엄">✦</button>
+</header>
+
+<main id="main">
+
+  <section class="screen active" id="screenHome">
+    <div class="mascot-wrap">
+      <img src="byeolun.svg" alt="별운" class="mascot floating" onerror="this.style.display='none'">
+      <div class="speech-bubble">
+        <p id="homeGreeting">안녕, 나는 <b>별운</b>이야.<br>오늘 너의 미래를 알려줄게.</p>
+      </div>
+    </div>
+
+    <div class="menu-grid">
+      <button class="menu-card" data-go="screenSaju"><span class="emoji">🌙</span><span class="label">사주풀이</span><span class="sub">생년월일로 보는 평생운</span></button>
+      <button class="menu-card" data-go="screenGunghap"><span class="emoji">💞</span><span class="label">궁합보기</span><span class="sub">우리는 어울리는 사이?</span></button>
+      <button class="menu-card" data-go="screenTarot"><span class="emoji">🃏</span><span class="label">타로카드</span><span class="sub">과거·현재·미래 3장</span></button>
+      <button class="menu-card" data-go="screenDaily"><span class="emoji">✨</span><span class="label">일일운세</span><span class="sub">총운·애정·금전·건강</span></button>
+      <button class="menu-card" data-go="screenMbti"><span class="emoji">🎭</span><span class="label">MBTI 운세</span><span class="sub">성격별 오늘의 흐름</span></button>
+      <button class="menu-card" data-go="screenDream"><span class="emoji">💭</span><span class="label">꿈해몽</span><span class="sub">간밤의 꿈, 무슨 뜻?</span></button>
+      <button class="menu-card" data-go="screenName"><span class="emoji">🖋️</span><span class="label">이름풀이</span><span class="sub">획수로 보는 이름의 기운</span></button>
+      <button class="menu-card highlight" data-go="screenAI"><span class="emoji">🔮</span><span class="label">AI 별운풀이</span><span class="sub">하루 1회 무료 · 무제한은 프리미엄</span></button>
+    </div>
+    <div class="ad-slot" data-slot="home"></div>
+  </section>
+
+  <section class="screen" id="screenSaju">
+    <button class="back" data-back>← 돌아가기</button>
+    <h2>🌙 사주풀이</h2>
+    <p class="desc">생년월일과 태어난 시간을 입력하면 별운이 풀이해줘요.</p>
+    <form id="formSaju" class="form">
+      <label>이름 (선택)<input type="text" name="name" maxlength="10" placeholder="홍길동"></label>
+      <label>달력 종류<div class="radio-row">
+        <label><input type="radio" name="calendar" value="양력" checked>양력</label>
+        <label><input type="radio" name="calendar" value="음력">음력</label>
+        <label><input type="checkbox" name="leap" value="1">윤달</label>
+      </div></label>
+      <label>생년월일<input type="date" name="birth" required></label>
+      <label>태어난 시간<select name="hour">
+        <option value="">모름</option>
+        <option value="자">자시 (23:30~01:30)</option><option value="축">축시 (01:30~03:30)</option>
+        <option value="인">인시 (03:30~05:30)</option><option value="묘">묘시 (05:30~07:30)</option>
+        <option value="진">진시 (07:30~09:30)</option><option value="사">사시 (09:30~11:30)</option>
+        <option value="오">오시 (11:30~13:30)</option><option value="미">미시 (13:30~15:30)</option>
+        <option value="신">신시 (15:30~17:30)</option><option value="유">유시 (17:30~19:30)</option>
+        <option value="술">술시 (19:30~21:30)</option><option value="해">해시 (21:30~23:30)</option>
+      </select></label>
+      <label>성별<div class="radio-row">
+        <label><input type="radio" name="gender" value="남" checked>남</label>
+        <label><input type="radio" name="gender" value="여">여</label>
+      </div></label>
+      <button class="btn-primary" type="submit">사주 보기</button>
+    </form>
+    <div id="resultSaju" class="result" hidden></div>
+    <div class="ad-slot" data-slot="saju"></div>
+  </section>
+
+  <section class="screen" id="screenGunghap">
+    <button class="back" data-back>← 돌아가기</button>
+    <h2>💞 궁합보기</h2>
+    <p class="desc">두 사람의 생년월일로 궁합을 봐드려요.</p>
+    <form id="formGunghap" class="form">
+      <fieldset><legend>나</legend>
+        <label>이름<input type="text" name="name1" placeholder="이름" maxlength="10"></label>
+        <label>달력<div class="radio-row">
+          <label><input type="radio" name="cal1" value="양력" checked>양력</label>
+          <label><input type="radio" name="cal1" value="음력">음력</label>
+        </div></label>
+        <label>생년월일<input type="date" name="birth1" required></label>
+      </fieldset>
+      <fieldset><legend>상대방</legend>
+        <label>이름<input type="text" name="name2" placeholder="이름" maxlength="10"></label>
+        <label>달력<div class="radio-row">
+          <label><input type="radio" name="cal2" value="양력" checked>양력</label>
+          <label><input type="radio" name="cal2" value="음력">음력</label>
+        </div></label>
+        <label>생년월일<input type="date" name="birth2" required></label>
+      </fieldset>
+      <button class="btn-primary" type="submit">궁합 보기</button>
+    </form>
+    <div id="resultGunghap" class="result" hidden></div>
+    <div class="ad-slot" data-slot="gunghap"></div>
+  </section>
+
+  <section class="screen" id="screenTarot">
+    <button class="back" data-back>← 돌아가기</button>
+    <h2>🃏 타로 3장 스프레드</h2>
+    <p class="desc">마음속 질문을 떠올리며 <b>세 장을 모두</b> 뽑아보세요.<br>왼쪽부터 <b>과거 · 현재 · 미래</b>를 알려줘요.</p>
+    <div id="tarotProgress" class="ai-status">아직 한 장도 안 뽑았어요. 첫 번째 카드를 클릭!</div>
+    <div id="tarotDeck" class="tarot-deck">
+      <div class="tarot-card-wrap"><div class="tarot-pos">과거</div><div class="tarot-card" data-pos="0"><div class="back-face">✦</div></div></div>
+      <div class="tarot-card-wrap"><div class="tarot-pos">현재</div><div class="tarot-card" data-pos="1"><div class="back-face">✦</div></div></div>
+      <div class="tarot-card-wrap"><div class="tarot-pos">미래</div><div class="tarot-card" data-pos="2"><div class="back-face">✦</div></div></div>
+    </div>
+    <button class="back" id="tarotReset" style="margin-top:4px" hidden>↻ 다시 뽑기</button>
+    <div id="resultTarot" class="result" hidden></div>
+    <div class="ad-slot" data-slot="tarot"></div>
+  </section>
+
+  <section class="screen" id="screenDaily">
+    <button class="back" data-back>← 돌아가기</button>
+    <h2>✨ 일일운세</h2>
+    <p class="desc">오늘 하루 별운이 알려주는 흐름.</p>
+    <form id="formDaily" class="form">
+      <label>띠 선택<select name="zodiac" required>
+        <option value="">선택하세요</option>
+        <option>쥐</option><option>소</option><option>호랑이</option><option>토끼</option>
+        <option>용</option><option>뱀</option><option>말</option><option>양</option>
+        <option>원숭이</option><option>닭</option><option>개</option><option>돼지</option>
+      </select></label>
+      <button class="btn-primary" type="submit">오늘의 운세 보기</button>
+    </form>
+    <div id="resultDaily" class="result" hidden></div>
+    <div class="ad-slot" data-slot="daily"></div>
+  </section>
+
+  <section class="screen" id="screenMbti">
+    <button class="back" data-back>← 돌아가기</button>
+    <h2>🎭 MBTI 운세</h2>
+    <p class="desc">내 MBTI에 맞는 오늘의 흐름을 알려드려요.</p>
+    <form id="formMbti" class="form">
+      <label>MBTI 선택<select name="mbti" required>
+        <option value="">선택하세요</option>
+        <option>INTJ</option><option>INTP</option><option>ENTJ</option><option>ENTP</option>
+        <option>INFJ</option><option>INFP</option><option>ENFJ</option><option>ENFP</option>
+        <option>ISTJ</option><option>ISFJ</option><option>ESTJ</option><option>ESFJ</option>
+        <option>ISTP</option><option>ISFP</option><option>ESTP</option><option>ESFP</option>
+      </select></label>
+      <button class="btn-primary" type="submit">MBTI 운세 보기</button>
+    </form>
+    <div id="resultMbti" class="result" hidden></div>
+    <div class="ad-slot" data-slot="mbti"></div>
+  </section>
+
+  <section class="screen" id="screenDream">
+    <button class="back" data-back>← 돌아가기</button>
+    <h2>💭 꿈해몽</h2>
+    <p class="desc">키워드를 입력하면 별운이 풀이해줘요.</p>
+    <form id="formDream" class="form">
+      <label>꿈 키워드<input type="text" name="keyword" required placeholder="예: 뱀, 물, 이빨, 시험" maxlength="30"></label>
+      <button class="btn-primary" type="submit">꿈 풀이</button>
+    </form>
+    <div id="resultDream" class="result" hidden></div>
+    <div class="ad-slot" data-slot="dream"></div>
+  </section>
+
+  <section class="screen" id="screenName">
+    <button class="back" data-back>← 돌아가기</button>
+    <h2>🖋️ 이름풀이</h2>
+    <p class="desc">한글 이름의 자음·모음으로 기운을 풀이해요.</p>
+    <form id="formName" class="form">
+      <label>이름 (한글)<input type="text" name="name" required placeholder="예: 김별운" maxlength="6"></label>
+      <button class="btn-primary" type="submit">이름 풀이</button>
+    </form>
+    <div id="resultName" class="result" hidden></div>
+    <div class="ad-slot" data-slot="name"></div>
+  </section>
+
+  <section class="screen" id="screenAI">
+    <button class="back" data-back>← 돌아가기</button>
+    <h2>🔮 AI 별운풀이</h2>
+    <p class="desc">별운에게 직접 물어보세요. (하루 1회 무료 · 프리미엄은 무제한)</p>
+    <div class="ai-status" id="aiStatus"></div>
+    <form id="formAI" class="form">
+      <label>고민 내용<textarea name="question" required maxlength="200" rows="4" placeholder="예: 요즘 회사 문제로 고민이 많아요."></textarea></label>
+      <button class="btn-primary" type="submit">별운에게 물어보기</button>
+    </form>
+    <div id="resultAI" class="result" hidden></div>
+    <div class="ad-slot" data-slot="ai"></div>
+  </section>
+
+</main>
+
+<!-- 사이드 메뉴 (햄버거 ☰ 클릭 시) -->
+<div class="side-menu" id="sideMenu" hidden>
+  <div class="side-menu-bg" data-close-menu></div>
+  <nav class="side-menu-panel">
+    <div class="side-menu-header">
+      <img src="byeolun.svg" alt="" class="side-mascot" onerror="this.style.display='none'">
+      <div>
+        <div class="side-title">나의미래는?</div>
+        <div class="side-sub" id="sideStatus">무료 이용 중</div>
+      </div>
+    </div>
+    <button class="side-item" data-go="screenHome">🏠 홈</button>
+    <button class="side-item" data-go="screenSaju">🌙 사주풀이</button>
+    <button class="side-item" data-go="screenGunghap">💞 궁합보기</button>
+    <button class="side-item" data-go="screenTarot">🃏 타로카드</button>
+    <button class="side-item" data-go="screenDaily">✨ 일일운세</button>
+    <button class="side-item" data-go="screenMbti">🎭 MBTI 운세</button>
+    <button class="side-item" data-go="screenDream">💭 꿈해몽</button>
+    <button class="side-item" data-go="screenName">🖋️ 이름풀이</button>
+    <button class="side-item highlight" data-go="screenAI">🔮 AI 별운풀이</button>
+    <div class="side-divider"></div>
+    <button class="side-item" id="sideOpenPremium">✦ 프리미엄 가입</button>
+    <button class="side-item small" id="sideResetPremium">(데모: 프리미엄 해제)</button>
+  </nav>
+</div>
+
+<div class="modal" id="modalPremium" hidden>
+  <div class="modal-bg" data-close-modal></div>
+  <div class="modal-card">
+    <button class="modal-close" data-close-modal aria-label="닫기">×</button>
+    <img src="byeolun.svg" class="modal-mascot" alt="" onerror="this.style.display='none'">
+    <h3>별운 프리미엄</h3>
+    <ul class="benefits">
+      <li>✦ 광고 완전 제거</li>
+      <li>✦ AI 별운풀이 무제한</li>
+      <li>✦ 사주·궁합 상세 리포트</li>
+      <li>✦ 매주 토요일 주간운세 푸시</li>
+    </ul>
+    <div class="price">월 <b>1,500원</b></div>
+    <button class="btn-primary" id="btnSubscribe">프리미엄 시작하기</button>
+    <p class="small">언제든 해지 가능</p>
+  </div>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
